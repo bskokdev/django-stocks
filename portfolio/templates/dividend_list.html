@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}Dividends{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Dividend History</h1>
+    
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h5 class="mb-0">Dividend Payments</h5>
+        </div>
+        <div class="card-body">
+            {% if dividends %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Stock</th>
+                                <th>Amount</th>
+                                <th>Payment Date</th>
+                                <th>Record Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for dividend in dividends %}
+                                <tr>
+                                    <td>
+                                        <a href="{% url 'portfolio:stock_detail' dividend.stock.pk %}">
+                                            {{ dividend.stock.symbol }}
+                                        </a>
+                                    </td>
+                                    <td>${{ dividend.amount_per_share|floatformat:4 }}</td>
+                                    <td>{{ dividend.payment_date|date:"M d, Y" }}</td>
+                                    <td>{{ dividend.record_date|date:"M d, Y" }}</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-outline-primary">
+                                            <i class="bi bi-eye"></i> View
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="text-muted">No dividend payments found in your portfolios.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

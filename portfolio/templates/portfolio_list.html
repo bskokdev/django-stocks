@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Portfolios{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Your Portfolios</h1>
+        <a href="{% url 'portfolio:portfolio_create' %}" class="btn btn-primary">
+            <i class="bi bi-plus-lg"></i> Create Portfolio
+        </a>
+    </div>
+    <div class="row">
+        {% for portfolio in portfolios %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="mb-0">{{ portfolio.name }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text">{{ portfolio.description|truncatechars:100 }}</p>
+                        <h4 class="card-title">${{ portfolio.total_value|floatformat:2 }}</h4>
+                        <p class="text-muted">Last updated: {{ portfolio.updated_at|date:"M d, Y" }}</p>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <a href="{% url 'portfolio:portfolio_detail' portfolio.pk %}" class="btn btn-outline-primary btn-sm">
+                            View Details
+                        </a>
+                        <a href="{% url 'portfolio:transaction_create' %}" class="btn btn-outline-success btn-sm ms-2">
+                            Add Transaction
+                        </a>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    You don't have any portfolios yet. <a href="#" class="alert-link">Create your first portfolio</a> to get started.
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Create Watchlist{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mt-4">
+                <div class="card-header bg-info text-white">
+                    <h4>Create New Watchlist</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Watchlist Name</label>
+                            {{ form.name }}
+                            {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label">Select Stocks</label>
+                            <div class="row">
+                                {% for stock in form.stocks %}
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            {{ stock.tag }}
+                                            <label class="form-check-label" for="{{ stock.id_for_label }}">
+                                                {{ stock.choice_label }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'portfolio:watchlist_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-info">
+                                <i class="bi bi-save"></i> Save Watchlist
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Add Stock{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mt-4">
+                <div class="card-header bg-success text-white">
+                    <h4>Add New Stock</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form.symbol.id_for_label }}" class="form-label">Symbol</label>
+                            {{ form.symbol }}
+                            {% if form.symbol.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.symbol.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Company Name</label>
+                            {{ form.name }}
+                        </div>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="{{ form.sector.id_for_label }}" class="form-label">Sector</label>
+                                {{ form.sector }}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="{{ form.industry.id_for_label }}" class="form-label">Industry</label>
+                                {{ form.industry }}
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.current_price.id_for_label }}" class="form-label">Current Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">$</span>
+                                {{ form.current_price }}
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'portfolio:stock_list' %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-save"></i> Add Stock
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

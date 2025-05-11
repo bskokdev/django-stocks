@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block title %}Performance{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h1 class="mb-4">Portfolio Performance</h1>
+    
+    <div class="row mb-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Invested</h5>
+                    <h2 class="card-text">${{ overall_invested|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Current Value</h5>
+                    <h2 class="card-text">${{ overall_value|floatformat:2 }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Total Profit/Loss</h5>
+                    <h2 class="card-text {% if overall_pl >= 0 %}positive{% else %}negative{% endif %}">
+                        ${{ overall_pl|floatformat:2 }} ({{ overall_pl_percent|floatformat:2 }}%)
+                    </h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">Portfolio Performance</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Portfolio</th>
+                            <th>Invested</th>
+                            <th>Current Value</th>
+                            <th>P/L ($)</th>
+                            <th>P/L (%)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in portfolio_data %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'portfolio:portfolio_detail' data.portfolio.pk %}">
+                                        {{ data.portfolio.name }}
+                                    </a>
+                                </td>
+                                <td>${{ data.total_invested|floatformat:2 }}</td>
+                                <td>${{ data.total_value|floatformat:2 }}</td>
+                                <td class="{% if data.total_pl >= 0 %}positive{% else %}negative{% endif %}">
+                                    ${{ data.total_pl|floatformat:2 }}
+                                </td>
+                                <td class="{% if data.pl_percent >= 0 %}positive{% else %}negative{% endif %}">
+                                    {{ data.pl_percent|floatformat:2 }}%
+                                </td>
+                                <td>
+                                    <a href="{% url 'portfolio:portfolio_detail' data.portfolio.pk %}" class="btn btn-sm btn-outline-primary">
+                                        View
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card">
+        <div class="card-header bg-secondary text-white">
+            <h5 class="mb-0">Performance Chart</h5>
+        </div>
+        <div class="card-body">
+            <div id="performanceChart" style="height: 400px;">
+                <p class="text-muted text-center py-5">Performance chart would be displayed here with a proper charting library.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // This is a placeholder for actual chart implementation
+    // In a real application, you would use a library like Chart.js, Highcharts, etc.
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Performance chart would be initialized here');
+    });
+</script>
+{% endblock %}
