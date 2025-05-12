@@ -116,6 +116,36 @@ def portfolio_create(request):
     return render(request, 'portfolio_create.html', {'form': form})
 
 @login_required
+def portfolio_update(request, pk):
+    portfolio = get_object_or_404(Portfolio, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = PortfolioForm(request.POST, instance=portfolio)
+        if form.is_valid():
+            form.save()
+            return redirect('/portfolios', pk=portfolio.pk)
+    else:
+        form = PortfolioForm(instance=portfolio)
+
+    context = {
+        'form': form,
+        'title': f'Edit {portfolio.name}',
+        'action': 'Update',
+        'portfolio': portfolio
+    }
+    return render(request, 'portfolio_form.html', context)
+
+@login_required
+def portfolio_delete(request, pk):
+    portfolio = get_object_or_404(Portfolio, pk=pk, user=request.user)
+    if request.method == 'POST':
+        portfolio.delete()
+        return redirect('/portfolios')
+
+    return render(request, 'portfolio_confirm_delete.html', {
+        'portfolio': portfolio
+    })
+
+@login_required
 def transaction_create(request):
     if request.method == 'POST':
         form = TransactionForm(request.POST, user=request.user)  # Pass user to form
@@ -208,6 +238,35 @@ def watchlist_create(request):
         form = WatchlistForm()
     
     return render(request, 'watchlist_create.html', {'form': form})
+
+@login_required
+def watchlist_update(request, pk):
+    watchlist = get_object_or_404(Watchlist, pk=pk, user=request.user)
+    if request.method == 'POST':
+        form = WatchlistForm(request.POST, instance=watchlist)
+        if form.is_valid():
+            watchlist = form.save()
+            return redirect('/watchlists', pk=watchlist.pk)
+    else:
+        form = WatchlistForm(instance=watchlist)
+    context = {
+        'form': form,
+        'title': f'Edit {watchlist.name}',
+        'action': 'Update',
+        'watchlist': watchlist
+    }
+    return render(request, 'watchlist_form.html', context)
+
+@login_required
+def watchlist_delete(request, pk):
+    watchlist = get_object_or_404(Watchlist, pk=pk, user=request.user)
+    if request.method == 'POST':
+        watchlist.delete()
+        return redirect('/watchlists')
+
+    return render(request, 'watchlist_confirm_delete.html', {
+        'watchlist': watchlist
+    })
 
 class DividendListView(LoginRequiredMixin, ListView):
     model = Dividend

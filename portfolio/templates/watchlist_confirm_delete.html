@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Delete {{ watchlist.name }}{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mt-4">
+                <div class="card-header bg-danger text-white">
+                    <h4>Confirm Watchlist Deletion</h4>
+                </div>
+                <div class="card-body">
+                    <p>Are you sure you want to delete <strong>{{ watchlist.name }}</strong>?</p>
+
+                    {% if watchlist.stocks.exists %}
+                        <div class="alert alert-warning">
+                            <i class="bi bi-exclamation-triangle"></i> This watchlist contains {{ watchlist.stocks.count }} stock(s).
+                        </div>
+                    {% endif %}
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{% url 'portfolio:watchlist_detail' watchlist.pk %}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Confirm Delete
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -17,7 +17,9 @@ urlpatterns = [
     path('portfolios/', views.PortfolioListView.as_view(), name='portfolio_list'),
     path('portfolios/<int:pk>/', views.PortfolioDetailView.as_view(), name='portfolio_detail'),
     path('portfolios/create/', views.portfolio_create, name='portfolio_create'),
-    
+    path('portfolios/<int:pk>/edit/', views.portfolio_update, name='portfolio_update'),
+    path('portfolios/<int:pk>/delete/', views.portfolio_delete, name='portfolio_delete'),
+
     # Transaction URLs
     path('transactions/', views.TransactionListView.as_view(), name='transaction_list'),
     path('transactions/create/', views.transaction_create, name='transaction_create'),
@@ -26,7 +28,9 @@ urlpatterns = [
     path('watchlists/', views.WatchlistListView.as_view(), name='watchlist_list'),
     path('watchlists/<int:pk>/', views.WatchlistDetailView.as_view(), name='watchlist_detail'),
     path('watchlists/create/', views.watchlist_create, name='watchlist_create'),
-    
+    path('watchlists/<int:pk>/edit/', views.watchlist_update, name='watchlist_update'),
+    path('watchlists/<int:pk>/delete/', views.watchlist_delete, name='watchlist_delete'),
+
     # Dividend URLs
     path('dividends/', views.DividendListView.as_view(), name='dividend_list'),
     

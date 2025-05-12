@@ -38,8 +38,11 @@
                         <a href="{% url 'portfolio:watchlist_detail' watchlist.pk %}" class="btn btn-outline-info btn-sm">
                             View Details
                         </a>
-                        <a href="#" class="btn btn-outline-secondary btn-sm ms-2">
+                        <a href="{% url 'portfolio:watchlist_update' pk=watchlist.pk %}" class="btn btn-outline-secondary btn-sm ms-2">
                             Edit
+                        </a>
+                        <a href="{% url 'portfolio:watchlist_delete' pk=watchlist.pk %}" class="btn btn-outline-secondary btn-sm ms-2">
+                            Delete
                         </a>
                     </div>
                 </div>

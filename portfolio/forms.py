@@ -28,6 +28,10 @@ class PortfolioForm(forms.ModelForm):
     class Meta:
         model = Portfolio
         fields = ['name', 'description']
+        widgets = {
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'rows': 3}),
+        }
 
 class TransactionForm(forms.ModelForm):
     class Meta:
@@ -62,8 +66,13 @@ class WatchlistForm(forms.ModelForm):
         model = Watchlist
         fields = ['name', 'stocks']
         widgets = {
-            'stocks': forms.CheckboxSelectMultiple,
+            'name': forms.TextInput(attrs={'class': 'form-control'}),
+            'stocks': forms.CheckboxSelectMultiple(),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['stocks'].queryset = Stock.objects.all().order_by('symbol')
 
 class StockSearchForm(forms.Form):
     symbol = forms.CharField(max_length=10, required=False)

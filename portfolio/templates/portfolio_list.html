@@ -23,11 +23,17 @@
                         <p class="text-muted">Last updated: {{ portfolio.updated_at|date:"M d, Y" }}</p>
                     </div>
                     <div class="card-footer bg-transparent">
+                        <a href="{% url 'portfolio:transaction_create' %}" class="btn btn-outline-success btn-sm ms-2">
+                            Add Transaction
+                        </a>
                         <a href="{% url 'portfolio:portfolio_detail' portfolio.pk %}" class="btn btn-outline-primary btn-sm">
                             View Details
                         </a>
-                        <a href="{% url 'portfolio:transaction_create' %}" class="btn btn-outline-success btn-sm ms-2">
-                            Add Transaction
+                        <a href="{% url 'portfolio:portfolio_update' pk=portfolio.pk %}" class="btn btn-outline-secondary btn-sm ms-2">
+                            Edit
+                        </a>
+                        <a href="{% url 'portfolio:portfolio_delete' pk=portfolio.pk %}" class="btn btn-outline-secondary btn-sm ms-2">
+                            Delete
                         </a>
                     </div>
                 </div>
@@ -35,7 +41,7 @@
         {% empty %}
             <div class="col-12">
                 <div class="alert alert-info">
-                    You don't have any portfolios yet. <a href="#" class="alert-link">Create your first portfolio</a> to get started.
+                    You don't have any portfolios yet. <a href="{% url 'portfolio:portfolio_create' %}" class="alert-link">Create your first portfolio</a> to get started.
                 </div>
             </div>
         {% endfor %}
